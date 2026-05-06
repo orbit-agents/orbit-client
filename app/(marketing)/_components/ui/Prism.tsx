@@ -18,6 +18,12 @@ type PrismProps = {
   bloom?: number;
   suspendWhenOffscreen?: boolean;
   timeScale?: number;
+  /** Max device-pixel-ratio. Lower = fewer pixels = faster. Default 1. */
+  maxDpr?: number;
+  /** Frames per second cap. Default 30 (ambient backdrop). */
+  maxFps?: number;
+  /** Raymarching steps in the shader. Lower = faster but flatter. Default 48. */
+  steps?: number;
 };
 
 const Prism: React.FC<PrismProps> = ({
@@ -34,8 +40,11 @@ const Prism: React.FC<PrismProps> = ({
   hoverStrength = 2,
   inertia = 0.05,
   bloom = 1,
-  suspendWhenOffscreen = false,
+  suspendWhenOffscreen = true,
   timeScale = 0.5,
+  maxDpr = 1,
+  maxFps = 30,
+  steps = 48,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -62,7 +71,13 @@ const Prism: React.FC<PrismProps> = ({
     const HOVSTR = Math.max(0, hoverStrength || 1);
     const INERT = Math.max(0, Math.min(1, inertia || 0.12));
 
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const dpr = Math.min(Math.max(0.5, maxDpr), window.devicePixelRatio || 1);
+    const FRAME_INTERVAL = maxFps > 0 ? 1000 / maxFps : 0;
+    const STEPS = Math.max(8, Math.min(200, Math.floor(steps)));
     const renderer = new Renderer({
       dpr,
       alpha: transparent,
@@ -176,8 +191,7 @@ const Prism: React.FC<PrismProps> = ({
           wob = mat2(c0, c1, c2, c0);
         }
 
-        const int STEPS = 100;
-        for (int i = 0; i < STEPS; i++) {
+        for (int i = 0; i < ${STEPS}; i++) {
           p = vec3(f, z);
           p.xz = p.xz * wob;
           p = uRot * p;
@@ -293,9 +307,11 @@ const Prism: React.FC<PrismProps> = ({
 
     const NOISE_IS_ZERO = NOISE < 1e-6;
     let raf = 0;
+    let lastFrameAt = 0;
+    let visible = !document.hidden;
     const t0 = performance.now();
     const startRAF = () => {
-      if (raf) return;
+      if (raf || !visible) return;
       raf = requestAnimationFrame(render);
     };
     const stopRAF = () => {
@@ -303,6 +319,12 @@ const Prism: React.FC<PrismProps> = ({
       cancelAnimationFrame(raf);
       raf = 0;
     };
+    const onVisibility = () => {
+      visible = !document.hidden;
+      if (visible) startRAF();
+      else stopRAF();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     const rnd = () => Math.random();
     const wX = (0.3 + rnd() * 0.6) * RSX;
@@ -354,6 +376,13 @@ const Prism: React.FC<PrismProps> = ({
     }
 
     const render = (t: number) => {
+      // Frame-rate cap — skip frames that arrive too soon.
+      if (FRAME_INTERVAL > 0 && lastFrameAt && t - lastFrameAt < FRAME_INTERVAL) {
+        raf = requestAnimationFrame(render);
+        return;
+      }
+      lastFrameAt = t;
+
       const time = (t - t0) * 0.001;
       program.uniforms.iTime.value = time;
 
@@ -412,7 +441,11 @@ const Prism: React.FC<PrismProps> = ({
       __prismIO?: IntersectionObserver;
     }
 
-    if (suspendWhenOffscreen) {
+    if (reducedMotion) {
+      // Honor prefers-reduced-motion: render a single frame, then stop.
+      program.uniforms.iTime.value = 0;
+      renderer.render({ scene: mesh });
+    } else if (suspendWhenOffscreen) {
       const io = new IntersectionObserver((entries) => {
         const vis = entries.some((e) => e.isIntersecting);
         if (vis) startRAF();
@@ -428,6 +461,7 @@ const Prism: React.FC<PrismProps> = ({
     return () => {
       stopRAF();
       ro.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       if (animationType === "hover") {
         if (onPointerMove)
           window.removeEventListener("pointermove", onPointerMove as EventListener);
@@ -460,6 +494,9 @@ const Prism: React.FC<PrismProps> = ({
     inertia,
     bloom,
     suspendWhenOffscreen,
+    maxDpr,
+    maxFps,
+    steps,
   ]);
 
   return <div className="w-full h-full relative" ref={containerRef} />;
