@@ -4,6 +4,7 @@ import { Button } from "../ui/Button";
 import { Dot } from "../ui/Dot";
 import { DownloadIcon, ArrowRight } from "../icons/Icons";
 import { HeroPreview } from "./HeroPreview";
+import Prism from "../ui/Prism";
 
 export function Hero() {
   return (
@@ -20,29 +21,34 @@ export function Hero() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage:
-            "radial-gradient(circle at center, rgba(255,255,255,0.025) 0.8px, transparent 1px)",
-          backgroundSize: "28px 28px",
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 35%, #000 30%, transparent 75%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 35%, #000 30%, transparent 75%)",
           pointerEvents: "none",
+          maskImage:
+            "radial-gradient(ellipse 90% 80% at 50% 40%, #000 40%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 90% 80% at 50% 40%, #000 40%, transparent 80%)",
         }}
-      />
+      >
+        <Prism
+          animationType="rotate"
+          timeScale={0.5}
+          height={3.5}
+          baseWidth={5.5}
+          scale={3.6}
+          hueShift={0}
+          colorFrequency={1}
+          noise={0}
+          glow={1}
+          suspendWhenOffscreen
+        />
+      </div>
       <div
         aria-hidden
         style={{
           position: "absolute",
-          left: "50%",
-          top: "8%",
-          width: 720,
-          height: 360,
-          transform: "translateX(-50%)",
+          inset: 0,
           background:
-            "radial-gradient(ellipse at center, rgba(74,222,128,0.06), transparent 60%)",
+            "radial-gradient(ellipse 60% 50% at 50% 35%, transparent 0%, rgba(0,0,0,0.55) 70%)",
           pointerEvents: "none",
-          animation: "om-glow-pulse 6s ease-in-out infinite",
         }}
       />
 
