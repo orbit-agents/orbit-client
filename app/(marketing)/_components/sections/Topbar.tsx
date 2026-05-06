@@ -3,12 +3,12 @@ import { DownloadIcon } from "../icons/Icons";
 import { Button } from "../ui/Button";
 
 const NAV = [
-  { label: "Product", href: "#values" },
-  { label: "How it works", href: "#how" },
-  { label: "Agents", href: "#agents" },
-  { label: "Download", href: "#download" },
-  { label: "Docs", href: "#" },
-  { label: "Changelog", href: "#" },
+  { label: "Product", href: "/product" },
+  { label: "How it works", href: "/how-it-works" },
+  { label: "Agents", href: "/agents" },
+  { label: "Download", href: "/download" },
+  { label: "Docs", href: "/docs" },
+  { label: "Changelog", href: "/changelog" },
 ];
 
 export function Topbar() {
@@ -30,7 +30,7 @@ export function Topbar() {
       }}
     >
       <a
-        href="#"
+        href="/"
         style={{
           display: "flex",
           alignItems: "center",
@@ -58,16 +58,18 @@ export function Topbar() {
       </nav>
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
         <a
-          href="#"
+          href="https://github.com/orbit-agents/orbit"
+          target="_blank"
+          rel="noreferrer"
           style={{
             padding: "6px 10px",
             color: "var(--textDim)",
             fontSize: 13,
           }}
         >
-          Sign in
+          GitHub
         </a>
-        <Button as="a" href="#download" variant="primary">
+        <Button as="a" href="/download" variant="primary">
           <DownloadIcon /> Download
         </Button>
       </div>
