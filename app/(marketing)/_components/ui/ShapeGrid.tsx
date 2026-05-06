@@ -60,6 +60,19 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const FRAME_INTERVAL = maxFps > 0 ? 1000 / maxFps : 0;
 
+    // Resolve `var(--token)` strings to their concrete value so canvas
+    // gradient stops accept them. Canvas 2D's addColorStop rejects CSS vars.
+    const resolveCssColor = (c: string): string => {
+      if (typeof c !== "string") return c;
+      const m = c.trim().match(/^var\((--[^,)]+)(?:,\s*([^)]+))?\)$/);
+      if (!m) return c;
+      const value = getComputedStyle(document.documentElement)
+        .getPropertyValue(m[1])
+        .trim();
+      return value || (m[2] ? m[2].trim() : "#000");
+    };
+    const resolvedVignetteColor = resolveCssColor(vignetteColor);
+
     const isHex = shape === "hexagon";
     const isTri = shape === "triangle";
     const hexHoriz = squareSize * 1.5;
@@ -232,7 +245,7 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
         Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
       );
       gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
-      gradient.addColorStop(1, vignetteColor);
+      gradient.addColorStop(1, resolvedVignetteColor);
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     };
