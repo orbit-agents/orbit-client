@@ -3,6 +3,7 @@ import { SectionContainer } from "../ui/SectionContainer";
 import { Eyebrow } from "../ui/Eyebrow";
 import { AppleIcon, LinuxIcon } from "../icons/Icons";
 import { DashedFrame } from "../ui/DashedFrame";
+import ShapeGrid from "../ui/ShapeGrid";
 
 export function Download() {
   return (
@@ -18,12 +19,37 @@ export function Download() {
         aria-hidden
         style={{
           position: "absolute",
+          inset: 0,
+          pointerEvents: "none",
+          opacity: 0.55,
+          maskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 80%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 80%)",
+        }}
+      >
+        <ShapeGrid
+          direction="diagonal"
+          speed={0.5}
+          squareSize={40}
+          borderColor="#2F293A"
+          hoverFillColor="#222222"
+          shape="square"
+          hoverTrailAmount={0}
+          vignetteColor="var(--bg)"
+        />
+      </div>
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
           left: "50%",
           top: "50%",
           transform: "translate(-50%, -50%)",
           width: 800,
           height: 400,
-          background: "radial-gradient(ellipse, rgba(74,222,128,0.08), transparent 60%)",
+          background:
+            "radial-gradient(ellipse, rgba(74,222,128,0.08), transparent 60%)",
           pointerEvents: "none",
           animation: "om-glow-pulse 5s ease-in-out infinite",
         }}
