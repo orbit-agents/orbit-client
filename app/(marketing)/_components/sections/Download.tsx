@@ -20,12 +20,11 @@ export function Download() {
         style={{
           position: "absolute",
           inset: 0,
-          pointerEvents: "none",
-          opacity: 0.55,
+          opacity: 0.75,
           maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 80%)",
+            "radial-gradient(ellipse 90% 80% at 50% 50%, #000 35%, transparent 85%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, #000 30%, transparent 80%)",
+            "radial-gradient(ellipse 90% 80% at 50% 50%, #000 35%, transparent 85%)",
         }}
       >
         <ShapeGrid
@@ -33,9 +32,9 @@ export function Download() {
           speed={0.5}
           squareSize={40}
           borderColor="#2F293A"
-          hoverFillColor="#222222"
+          hoverFillColor="rgba(74,222,128,0.65)"
           shape="square"
-          hoverTrailAmount={0}
+          hoverTrailAmount={8}
           vignetteColor="var(--bg)"
         />
       </div>
