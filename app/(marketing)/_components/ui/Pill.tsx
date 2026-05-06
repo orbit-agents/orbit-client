@@ -1,6 +1,12 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
-export function Pill({ children }: { children: ReactNode }) {
+export function Pill({
+  children,
+  style,
+}: {
+  children: ReactNode;
+  style?: CSSProperties;
+}) {
   return (
     <span
       style={{
@@ -15,6 +21,7 @@ export function Pill({ children }: { children: ReactNode }) {
         color: "var(--textDim)",
         marginBottom: 28,
         animation: "om-rise 0.6s ease-out both",
+        ...style,
       }}
     >
       {children}

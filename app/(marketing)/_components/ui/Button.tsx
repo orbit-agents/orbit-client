@@ -48,27 +48,15 @@ type BtnProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 export function Button(props: AnchorProps | BtnProps) {
-  const {
-    variant = "ghost",
-    size = "md",
-    children,
-    as: _as,
-    ...rest
-  } = props as unknown as Record<string, unknown> & {
-    variant?: Variant;
-    size?: Size;
-    children: ReactNode;
-    as?: "a" | "button";
-  };
-  if ((props as AnchorProps).as === "a") {
-    const anchor = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
+  if (props.as === "a") {
+    const { variant = "ghost", size = "md", children, as: _as, ...anchor } = props;
     return (
       <a {...anchor} style={{ ...styleFor(variant, size), ...(anchor.style || {}) }}>
         {children}
       </a>
     );
   }
-  const btn = rest as ButtonHTMLAttributes<HTMLButtonElement>;
+  const { variant = "ghost", size = "md", children, as: _as, ...btn } = props;
   return (
     <button {...btn} style={{ ...styleFor(variant, size), ...(btn.style || {}) }}>
       {children}

@@ -34,7 +34,6 @@ export function Dot({
       {pulse && status === "run" && (
         <span
           style={{
-            content: '""',
             position: "absolute",
             inset: -3,
             borderRadius: 99,
