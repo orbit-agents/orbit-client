@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { SectionContainer } from "../ui/SectionContainer";
+import { DashedFrame } from "../ui/DashedFrame";
 import { HowSidebar } from "../utils/HowSidebar";
 
 export function HowItWorks() {
@@ -31,47 +32,49 @@ export function HowItWorks() {
         }}
       />
       <SectionContainer>
-        <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 80, position: "relative" }}>
-          <HowSidebar />
+        <DashedFrame padding="48px 56px">
+          <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 80, position: "relative" }}>
+            <HowSidebar />
 
-          <div className="reveal-stagger" style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            <Step
-              n="1"
-              label="step 01"
-              title="Summon agents."
-              body="Pick from the roster (Keeper, Forge, Scribe, Mason, Atlas…) or spin up your own. Each is a persona + tools + model + limits — all editable."
-            >
-              <Line><K>$</K> orbit summon keeper</Line>
-              <Line muted>→ persona: <T>reviewer</T></Line>
-              <Line muted>→ tools: <T>git, shell, fs(ro)</T></Line>
-              <Line accent>✓ keeper joined platform-core</Line>
-            </Step>
+            <div className="reveal-stagger" style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              <Step
+                n="1"
+                label="step 01"
+                title="Summon agents."
+                body="Pick from the roster (Keeper, Forge, Scribe, Mason, Atlas…) or spin up your own. Each is a persona + tools + model + limits — all editable."
+              >
+                <Line><K>$</K> orbit summon keeper</Line>
+                <Line muted>→ persona: <T>reviewer</T></Line>
+                <Line muted>→ tools: <T>git, shell, fs(ro)</T></Line>
+                <Line accent>✓ keeper joined platform-core</Line>
+              </Step>
 
-            <Step
-              n="2"
-              label="step 02"
-              title="Hand them a task."
-              body="Describe what you want in plain language, or drag a Linear ticket onto the canvas. Watch the status dots light up as they plan, think, and start touching files."
-            >
-              <Line><B>forge</B> · thinking</Line>
-              <Line><T>{`> plan: extract limiter, add tests`}</T></Line>
-              <Line muted>{`  ↳ touching `}<T>src/middleware/*</T></Line>
-              <Line><W>scribe</W> · waiting on review</Line>
-            </Step>
+              <Step
+                n="2"
+                label="step 02"
+                title="Hand them a task."
+                body="Describe what you want in plain language, or drag a Linear ticket onto the canvas. Watch the status dots light up as they plan, think, and start touching files."
+              >
+                <Line><B>forge</B> · thinking</Line>
+                <Line><T>{`> plan: extract limiter, add tests`}</T></Line>
+                <Line muted>{`  ↳ touching `}<T>src/middleware/*</T></Line>
+                <Line><W>scribe</W> · waiting on review</Line>
+              </Step>
 
-            <Step
-              n="3"
-              label="step 03"
-              title="Review and ship."
-              body={`When an agent's done, it opens a run in the inbox. Read the diff, read the reviewer's notes, hit approve. Orbit pushes the branch and opens the PR.`}
-            >
-              <Line><T>run #142 · forge · rate-limiter</T></Line>
-              <Line><span style={{ color: "#4ade80" }}>+ 312</span>{"  "}<span style={{ color: "#ef4444" }}>− 41</span>{"  "}6 files{"  "}· 14 tests pass</Line>
-              <Line muted>  reviewer: keeper — looks good, one nit on naming</Line>
-              <Line accent>[ approve & open PR ]   [ request changes ]</Line>
-            </Step>
+              <Step
+                n="3"
+                label="step 03"
+                title="Review and ship."
+                body={`When an agent's done, it opens a run in the inbox. Read the diff, read the reviewer's notes, hit approve. Orbit pushes the branch and opens the PR.`}
+              >
+                <Line><T>run #142 · forge · rate-limiter</T></Line>
+                <Line><span style={{ color: "#4ade80" }}>+ 312</span>{"  "}<span style={{ color: "#ef4444" }}>− 41</span>{"  "}6 files{"  "}· 14 tests pass</Line>
+                <Line muted>  reviewer: keeper — looks good, one nit on naming</Line>
+                <Line accent>[ approve & open PR ]   [ request changes ]</Line>
+              </Step>
+            </div>
           </div>
-        </div>
+        </DashedFrame>
       </SectionContainer>
     </section>
   );
@@ -96,7 +99,7 @@ function Step({
       className="step"
       style={{
         padding: "32px 0",
-        borderTop: "1px solid var(--line2)",
+        borderTop: "1px dashed var(--line3)",
         display: "grid",
         gridTemplateColumns: "70px 1fr 360px",
         gap: 32,

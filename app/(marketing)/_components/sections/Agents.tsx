@@ -3,6 +3,7 @@ import { SectionContainer } from "../ui/SectionContainer";
 import { Eyebrow } from "../ui/Eyebrow";
 import { Chip } from "../ui/Chip";
 import { Button } from "../ui/Button";
+import { DashedFrame } from "../ui/DashedFrame";
 
 type Spec = { k: string; v: ReactNode };
 type Agent = {
@@ -264,16 +265,17 @@ export function Agents() {
         }}
       />
       <SectionContainer>
-        <div
-          className="reveal"
-          style={{
-            display: "flex",
-            alignItems: "end",
-            justifyContent: "space-between",
-            marginBottom: 48,
-            gap: 32,
-          }}
-        >
+        <DashedFrame padding={48}>
+          <div
+            className="reveal"
+            style={{
+              display: "flex",
+              alignItems: "end",
+              justifyContent: "space-between",
+              marginBottom: 48,
+              gap: 32,
+            }}
+          >
           <div>
             <Eyebrow>The roster</Eyebrow>
             <h2
@@ -312,53 +314,52 @@ export function Agents() {
               <span>
                 <b style={{ color: "var(--accent)", fontWeight: 500 }}>∞</b> custom
               </span>
-              <span>
-                <b style={{ color: "var(--accent)", fontWeight: 500 }}>any</b> model
-              </span>
+                <span>
+                  <b style={{ color: "var(--accent)", fontWeight: 500 }}>any</b> model
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div
-          className="reveal-stagger"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(6, 1fr)",
-            gridAutoRows: "minmax(220px, auto)",
-            gap: 1,
-            background: "var(--line0)",
-            border: "1px solid var(--line0)",
-            borderRadius: 8,
-            overflow: "hidden",
-          }}
-        >
-          {AGENTS.map((a) => (
-            <AgentCell key={a.id} agent={a} />
-          ))}
-        </div>
+          <div
+            className="reveal-stagger"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(6, 1fr)",
+              gridAutoRows: "minmax(220px, auto)",
+              border: "1px dashed var(--line3)",
+              borderRadius: 2,
+              overflow: "hidden",
+            }}
+          >
+            {AGENTS.map((a) => (
+              <AgentCell key={a.id} agent={a} />
+            ))}
+          </div>
 
-        <div
-          className="reveal"
-          style={{
-            marginTop: 14,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 16,
-            padding: "14px 18px",
-            background: "var(--ink0)",
-            border: "1px solid var(--line1)",
-            borderRadius: 6,
-          }}
-        >
-          <div className="mono" style={{ fontSize: 11, color: "var(--textDim)", letterSpacing: "0.04em" }}>
-            <b style={{ color: "var(--text)", fontWeight: 500 }}>Build your own.</b> A persona prompt, a model, a list of tools — that&apos;s the whole spec.
+          <div
+            className="reveal"
+            style={{
+              marginTop: 14,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 16,
+              padding: "14px 18px",
+              background: "var(--ink0)",
+              border: "1px dashed var(--line3)",
+              borderRadius: 2,
+            }}
+          >
+            <div className="mono" style={{ fontSize: 11, color: "var(--textDim)", letterSpacing: "0.04em" }}>
+              <b style={{ color: "var(--text)", fontWeight: 500 }}>Build your own.</b> A persona prompt, a model, a list of tools — that&apos;s the whole spec.
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Button>Browse community agents →</Button>
+              <Button variant="primary">+ New agent</Button>
+            </div>
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <Button>Browse community agents →</Button>
-            <Button variant="primary">+ New agent</Button>
-          </div>
-        </div>
+        </DashedFrame>
       </SectionContainer>
     </section>
   );
@@ -379,6 +380,8 @@ function AgentCell({ agent }: { agent: Agent }) {
         display: "flex",
         flexDirection: "column",
         transition: "background .25s ease",
+        borderRight: "1px dashed var(--line3)",
+        borderBottom: "1px dashed var(--line3)",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 14 }}>

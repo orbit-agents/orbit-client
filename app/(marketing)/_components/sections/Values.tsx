@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { SectionContainer } from "../ui/SectionContainer";
 import { Eyebrow } from "../ui/Eyebrow";
+import { DashedFrame } from "../ui/DashedFrame";
 
 export function Values() {
   return (
@@ -9,65 +10,62 @@ export function Values() {
       style={{ padding: "96px 0", borderBottom: "1px solid var(--line0)" }}
     >
       <SectionContainer>
-        <div className="reveal" style={{ maxWidth: 720, marginBottom: 56 }}>
-          <Eyebrow>What is orbit</Eyebrow>
-          <h2
+        <DashedFrame padding={48}>
+          <div className="reveal" style={{ maxWidth: 720, marginBottom: 56 }}>
+            <Eyebrow>What is orbit</Eyebrow>
+            <h2
+              style={{
+                fontSize: 44, lineHeight: 1.1, letterSpacing: "-1.2px",
+                fontWeight: 600, margin: "12px 0 16px", textWrap: "balance",
+              }}
+            >
+              Not another chat box. A control surface for a team that ships while you sleep.
+            </h2>
+            <p style={{ fontSize: 16, lineHeight: 1.55, color: "var(--textDim)", margin: 0, maxWidth: 560 }}>
+              Most agent tools give you one chat thread. Orbit gives you a workspace — a canvas of
+              agents working in parallel, each on their own task, each watchable, each promotable to
+              a real PR.
+            </p>
+          </div>
+
+          <div
+            className="reveal-stagger"
             style={{
-              fontSize: 44, lineHeight: 1.1, letterSpacing: "-1.2px",
-              fontWeight: 600, margin: "12px 0 16px", textWrap: "balance",
+              display: "grid",
+              gridTemplateColumns: "repeat(6, 1fr)",
             }}
           >
-            Not another chat box. A control surface for a team that ships while you sleep.
-          </h2>
-          <p style={{ fontSize: 16, lineHeight: 1.55, color: "var(--textDim)", margin: 0, maxWidth: 560 }}>
-            Most agent tools give you one chat thread. Orbit gives you a workspace — a canvas of
-            agents working in parallel, each on their own task, each watchable, each promotable to
-            a real PR.
-          </p>
-        </div>
+            <Cell feature corner="01 / canvas" badge="flagship" title="See the whole team at once.">
+              <p style={{ margin: 0 }}>A spatial canvas of every agent and what they&apos;re touching. Live status dots, edges between collaborators, dotted regions for squads. Glance, don&apos;t scroll.</p>
+              <CanvasGlyph />
+            </Cell>
 
-        <div
-          className="reveal-stagger"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(6, 1fr)",
-            gap: 1,
-            background: "var(--line0)",
-            border: "1px solid var(--line0)",
-            borderRadius: 6,
-            overflow: "hidden",
-          }}
-        >
-          <Cell feature corner="01 / canvas" badge="flagship" title="See the whole team at once.">
-            <p style={{ margin: 0 }}>A spatial canvas of every agent and what they&apos;re touching. Live status dots, edges between collaborators, dotted regions for squads. Glance, don&apos;t scroll.</p>
-            <CanvasGlyph />
-          </Cell>
+            <Cell corner="02" badge="dm" title="Talk to any one of them." dropRight>
+              <p style={{ margin: 0 }}>Click an agent, drop into a DM. Threaded tool calls show every grep, diff and shell.</p>
+              <DmGlyph />
+            </Cell>
 
-          <Cell corner="02" badge="dm" title="Talk to any one of them.">
-            <p style={{ margin: 0 }}>Click an agent, drop into a DM. Threaded tool calls show every grep, diff and shell.</p>
-            <DmGlyph />
-          </Cell>
+            <Cell corner="03" badge="squad" title="Form squads for big jobs.">
+              <p style={{ margin: 0 }}>Pull two or four agents into a group chat with one shared task. They split the work.</p>
+              <SquadGlyph />
+            </Cell>
 
-          <Cell corner="03" badge="squad" title="Form squads for big jobs.">
-            <p style={{ margin: 0 }}>Pull two or four agents into a group chat with one shared task. They split the work.</p>
-            <SquadGlyph />
-          </Cell>
+            <Cell corner="04" badge="review" title="Review every diff.">
+              <p style={{ margin: 0 }}>Side-by-side diffs, reviewer notes, an explicit approve / request-changes button.</p>
+              <DiffGlyph />
+            </Cell>
 
-          <Cell corner="04" badge="review" title="Review every diff.">
-            <p style={{ margin: 0 }}>Side-by-side diffs, reviewer notes, an explicit approve / request-changes button.</p>
-            <DiffGlyph />
-          </Cell>
+            <Cell corner="05" badge="sandbox" title="Local-first. Sandboxed." dropRight>
+              <p style={{ margin: 0 }}>Agents run in a per-task sandbox on your machine. They touch your repo through a watched filesystem, not the network.</p>
+              <SandboxGlyph />
+            </Cell>
 
-          <Cell corner="05" badge="sandbox" title="Local-first. Sandboxed.">
-            <p style={{ margin: 0 }}>Agents run in a per-task sandbox on your machine. They touch your repo through a watched filesystem, not the network.</p>
-            <SandboxGlyph />
-          </Cell>
-
-          <Cell corner="06" badge="map" title="One workspace per project.">
-            <p style={{ margin: 0 }}>Switch between repos with a tab. Each map remembers its agents, squads, and open tasks.</p>
-            <MapGlyph />
-          </Cell>
-        </div>
+            <Cell corner="06" badge="map" title="One workspace per project." dropBottom>
+              <p style={{ margin: 0 }}>Switch between repos with a tab. Each map remembers its agents, squads, and open tasks.</p>
+              <MapGlyph />
+            </Cell>
+          </div>
+        </DashedFrame>
       </SectionContainer>
     </section>
   );
@@ -78,12 +76,16 @@ function Cell({
   corner,
   badge,
   title,
+  dropRight = false,
+  dropBottom = false,
   children,
 }: {
   feature?: boolean;
   corner: string;
   badge: string;
   title: string;
+  dropRight?: boolean;
+  dropBottom?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -97,6 +99,8 @@ function Cell({
         flexDirection: "column",
         position: "relative",
         overflow: "hidden",
+        borderRight: dropRight ? "none" : "1px dashed var(--line3)",
+        borderBottom: dropBottom ? "none" : "1px dashed var(--line3)",
       }}
     >
       <div

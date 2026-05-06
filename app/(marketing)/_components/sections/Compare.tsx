@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { SectionContainer } from "../ui/SectionContainer";
 import { Eyebrow } from "../ui/Eyebrow";
+import { DashedFrame } from "../ui/DashedFrame";
 
 const THEM = [
   "One thread, one task at a time.",
@@ -24,55 +25,59 @@ export function Compare() {
   return (
     <section style={{ padding: "96px 0", borderBottom: "1px solid var(--line0)" }}>
       <SectionContainer>
-        <div className="reveal" style={{ maxWidth: 720, marginBottom: 36 }}>
-          <Eyebrow color="var(--accent)">Why orbit</Eyebrow>
-          <h2 style={{ fontSize: 36, lineHeight: 1.1, letterSpacing: "-0.8px", fontWeight: 600, margin: "12px 0 12px" }}>
-            One thread vs. a whole workspace.
-          </h2>
-          <p style={{ fontSize: 14.5, color: "var(--textDim)", lineHeight: 1.6, margin: 0 }}>
-            Most agent tools give you a single chat window and call it a day. Orbit treats agents
-            the way you treat people on a team — many at once, each with a job, all visible.
-          </p>
-        </div>
+        <DashedFrame padding={48}>
+          <div className="reveal" style={{ maxWidth: 720, marginBottom: 36 }}>
+            <Eyebrow color="var(--accent)">Why orbit</Eyebrow>
+            <h2 style={{ fontSize: 36, lineHeight: 1.1, letterSpacing: "-0.8px", fontWeight: 600, margin: "12px 0 12px" }}>
+              One thread vs. a whole workspace.
+            </h2>
+            <p style={{ fontSize: 14.5, color: "var(--textDim)", lineHeight: 1.6, margin: 0 }}>
+              Most agent tools give you a single chat window and call it a day. Orbit treats agents
+              the way you treat people on a team — many at once, each with a job, all visible.
+            </p>
+          </div>
 
-        <div
-          className="reveal"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 60px 1fr",
-            gap: 0,
-            alignItems: "stretch",
-            border: "1px solid var(--line1)",
-            borderRadius: 6,
-            overflow: "hidden",
-          }}
-        >
-          <Col side="them" title="chat-only tools">
-            {THEM.map((line, i) => (
-              <Row key={i} side="them" first={i === 0}>{line}</Row>
-            ))}
-          </Col>
           <div
-            className="mono"
+            className="reveal"
             style={{
-              background: "var(--ink2)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 11,
-              color: "var(--textFaint)",
-              letterSpacing: "0.2em",
-              writingMode: "vertical-rl",
+              display: "grid",
+              gridTemplateColumns: "1fr 60px 1fr",
+              gap: 0,
+              alignItems: "stretch",
+              border: "1px dashed var(--line3)",
+              borderRadius: 2,
+              overflow: "hidden",
             }}
           >
-            vs
+            <Col side="them" title="chat-only tools">
+              {THEM.map((line, i) => (
+                <Row key={i} side="them" first={i === 0}>{line}</Row>
+              ))}
+            </Col>
+            <div
+              className="mono"
+              style={{
+                background: "var(--ink2)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 11,
+                color: "var(--textFaint)",
+                letterSpacing: "0.2em",
+                writingMode: "vertical-rl",
+                borderLeft: "1px dashed var(--line3)",
+                borderRight: "1px dashed var(--line3)",
+              }}
+            >
+              vs
+            </div>
+            <Col side="us" title="orbit">
+              {US.map((line, i) => (
+                <Row key={i} side="us" first={i === 0}>{line}</Row>
+              ))}
+            </Col>
           </div>
-          <Col side="us" title="orbit">
-            {US.map((line, i) => (
-              <Row key={i} side="us" first={i === 0}>{line}</Row>
-            ))}
-          </Col>
-        </div>
+        </DashedFrame>
       </SectionContainer>
     </section>
   );
@@ -124,7 +129,7 @@ function Row({
     <div
       style={{
         padding: "12px 0",
-        borderTop: first ? "none" : "1px solid var(--line2)",
+        borderTop: first ? "none" : "1px dashed var(--line3)",
         display: "flex",
         alignItems: "start",
         gap: 10,

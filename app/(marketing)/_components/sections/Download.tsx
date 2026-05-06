@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { SectionContainer } from "../ui/SectionContainer";
 import { Eyebrow } from "../ui/Eyebrow";
 import { AppleIcon, LinuxIcon } from "../icons/Icons";
+import { DashedFrame } from "../ui/DashedFrame";
 
 export function Download() {
   return (
@@ -28,18 +29,16 @@ export function Download() {
         }}
       />
       <SectionContainer>
-        <div
-          className="reveal"
+        <DashedFrame
+          padding="56px 56px 48px"
           style={{
             position: "relative",
             maxWidth: 920,
             margin: "0 auto",
             background: "var(--ink0)",
-            border: "1px solid var(--line2)",
-            borderRadius: 10,
-            padding: "56px 56px 48px",
             boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
           }}
+          className="reveal"
         >
           <Eyebrow>Download</Eyebrow>
           <h2
@@ -103,7 +102,7 @@ export function Download() {
               Windows · soon
             </span>
           </div>
-        </div>
+        </DashedFrame>
       </SectionContainer>
     </section>
   );
