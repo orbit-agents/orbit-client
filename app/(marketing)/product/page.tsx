@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { SectionContainer } from "../_components/ui/SectionContainer";
 import { DashedFrame } from "../_components/ui/DashedFrame";
 import { PageHero } from "../_components/sections/PageHero";
@@ -7,115 +6,103 @@ import { Dot } from "../_components/ui/Dot";
 
 export const metadata = {
   title: "Product — Orbit",
-  description: "Everything Orbit ships today, mapped to phases 0–8.",
+  description: "A spatial workspace for orchestrating AI agents on your machine.",
 };
 
-type Phase = {
-  n: string;
+type Feature = {
+  group: string;
   title: string;
   oneLiner: string;
   bullets: string[];
 };
 
-const PHASES: Phase[] = [
+const FEATURES: Feature[] = [
   {
-    n: "0",
-    title: "Foundation",
-    oneLiner: "The shell every later phase is bolted onto.",
+    group: "Workspace",
+    title: "Spatial canvas",
+    oneLiner: "A map for your agents. Place them, group them, watch them work.",
     bullets: [
-      "Three-panel layout (canvas · sidebar · right panel) with drag-resize",
-      "Design tokens, dark theme, Geist + JetBrains Mono",
-      "CI: lint, typecheck, vitest, cargo fmt/clippy/test",
+      "Three-panel layout — canvas, sidebar, right rail — every panel resizable",
+      "Double-click to spawn an agent at a point; drag to rearrange",
+      "Status ring on every node: idle, streaming, waiting on you",
+      "Designed for up to 10 agents per map without the room getting noisy",
     ],
   },
   {
-    n: "1",
-    title: "One agent, end-to-end",
-    oneLiner: "Spawn a single agent. Talk to it. Pick up where you left off.",
+    group: "Workspace",
+    title: "Per-agent isolation",
+    oneLiner: "Conversations, drafts, scroll position — all kept separate.",
     bullets: [
-      "Spawn a Claude Code subprocess in a working directory",
-      "Stream stdout into a chat panel; render tool calls as expandable cards",
-      "Persist conversations in SQLite — restart the app, full history is there",
+      "Each agent has its own chat, its own working directory, its own state",
+      "Switch between agents without losing context",
+      "Persistent across restarts — every map is a real artifact on disk",
     ],
   },
   {
-    n: "2",
-    title: "Canvas + multiple agents",
-    oneLiner: "Spatial layout. Each agent isolated. Selection synced everywhere.",
+    group: "Identity",
+    title: "Soul, Purpose, Memory",
+    oneLiner: "Agents that remember who they are between sessions.",
     bullets: [
-      "React Flow canvas, double-click to spawn at point, drag to rearrange",
-      "Per-agent conversation, draft, scroll position — no bleed",
-      "Status ring on every node: idle / streaming / waiting-for-human (amber ?)",
-      "Soft cap of 10 agents per map (today)",
+      "Soul defines voice and standards; Purpose is the task in front of them",
+      "Memory is a writable list of facts the agent maintains itself",
+      "Live edits roll in on the next turn — no restart, no re-prompt",
     ],
   },
   {
-    n: "3",
-    title: "Soul · Purpose · Memory",
-    oneLiner: "Agents have an identity that survives every restart.",
+    group: "Identity",
+    title: "Tasks and inbox",
+    oneLiner: "A queue every agent shares with you.",
     bullets: [
-      "Soul (how they think) and Purpose (what they're doing) edited in Settings",
-      "Memory — persistent fact list, editable by you, writable by the agent via <remember>",
-      "Optional CLAUDE.md import on spawn; live identity updates flagged with a pending pill",
+      "Agents create, update, and close tasks inline",
+      "A unified inbox: Awaiting you, Running, Queued, Blocked, Done",
+      "Sticky notes for human-only thoughts — shift-click anywhere on the canvas",
     ],
   },
   {
-    n: "4",
+    group: "Coordination",
     title: "Agent-to-agent messaging",
     oneLiner: "Atlas hands work to Forge. The arc flies across the canvas.",
     bullets: [
-      "Broker routes every <send_to> through the core — never agent → agent directly",
-      "Animated arcs on canvas; loop-guard at depth 8; self-send + unknown-recipient errors",
-      "Audit trail in SQLite, surfaced in each agent's Settings → Inbox",
+      "Every handoff routes through the broker — never agent to agent direct",
+      "Animated arcs on the canvas show messages in flight",
+      "Loop guard at depth 8; full audit trail in the run log",
     ],
   },
   {
-    n: "5",
-    title: "Teams + folder access",
-    oneLiner: "Group agents that work together. Lock down what they can read.",
+    group: "Coordination",
+    title: "Teams and folder access",
+    oneLiner: "Group agents that work together. Lock down what they read.",
     bullets: [
-      "Canvas team regions auto-derive their bounds from member positions",
-      "Drag an agent into a region to add them; out to remove",
-      "Per-agent folder allowlist passed to Claude Code via --add-dir, enforced at the IPC boundary",
+      "Team regions on the canvas auto-derive their bounds from members",
+      "Drag an agent in to add, drag out to remove",
+      "Per-agent folder allowlist enforced at the workspace boundary",
     ],
   },
   {
-    n: "6",
-    title: "Git isolation",
-    oneLiner: "One worktree per agent. No more stepping on each other's branches.",
+    group: "Code",
+    title: "Workspace isolation",
+    oneLiner: "One workspace per agent. No more stepping on each other.",
     bullets: [
-      "libgit2 (git2) creates orbit/<slug>-<id> worktrees in the orbit data dir",
-      "Per-agent Diff tab + Branch section in Settings",
-      "Spawn refuses if the source tree is dirty; falls back gracefully outside a repo",
+      "Every agent runs in its own isolated branch and working directory",
+      "Built-in Diff tab and Branch panel inside Settings",
+      "Spawn refuses if your tree is dirty; falls back gracefully outside a project",
     ],
   },
   {
-    n: "7",
-    title: "Tasks · activity feed · sticky notes",
-    oneLiner: "Plan with the agent. Watch the queue work itself.",
+    group: "Code",
+    title: "Group rooms and shared terminal",
+    oneLiner: "Many agents in one room. Real shells when you need them.",
     bullets: [
-      "<task> pseudo-tool: agents create / update / mark done; you can edit inline",
-      "Task Inbox view across all agents — Awaiting you / Running / Queued / Blocked / Done",
-      "Activity feed groups task transitions and remembered facts by Today / Yesterday",
-      "Human-only sticky notes — shift-click anywhere on the canvas",
-    ],
-  },
-  {
-    n: "8",
-    title: "Group chats · terminal · MCP",
-    oneLiner: "Many agents in one room. Real shells. Custom tool servers.",
-    bullets: [
-      "Group threads — post once, every member's reply mirrors back through the broker",
-      "Terminal tab on the right panel — xterm.js + portable-pty, bound to the agent's worktree",
-      "MCP server registry — configured servers materialize a per-agent --mcp-config on spawn",
+      "Group threads — post once, every member responds through the broker",
+      "Built-in terminal bound to each agent's working directory",
+      "MCP server registry — register once, every agent can use the tools",
     ],
   },
 ];
 
 const NOT_BUILDING = [
   "Cloud sync — workspaces are local-first by intent",
-  "Hardware sandboxing / VMs — sandbox is per-task, not per-machine",
-  "Roles system — just a tag for now",
+  "Hardware sandboxing or VMs — sandbox is per-task, not per-machine",
   "Manager agents that spawn other agents",
   "Custom MCP server authoring (use existing servers)",
   "Mobile companion app",
@@ -129,11 +116,11 @@ export default function ProductPage() {
         pill={
           <Pill>
             <Dot status="run" pulse />
-            <span>Pre-alpha · Phases 0–8 complete</span>
+            <span>v0.4.2 · available now</span>
           </Pill>
         }
-        title={<>Everything Orbit ships today.</>}
-        lede="Eight phases, each a usable artifact. The list below is what's actually wired up in the desktop app today — not a roadmap of intent."
+        title={<>A workspace for AI teammates.</>}
+        lede="Orbit is a desktop app for running and orchestrating AI agents locally. The list below is what's wired up in the app today — capabilities you can use the moment you open it."
       />
 
       <section style={{ padding: "64px 0 96px" }}>
@@ -149,8 +136,8 @@ export default function ProductPage() {
                 borderRadius: 2,
               }}
             >
-              {PHASES.map((p, i) => (
-                <PhaseCell key={p.n} phase={p} index={i} total={PHASES.length} />
+              {FEATURES.map((f, i) => (
+                <FeatureCell key={f.title} feature={f} index={i} total={FEATURES.length} />
               ))}
             </div>
           </DashedFrame>
@@ -170,11 +157,11 @@ export default function ProductPage() {
                   margin: "0 0 12px",
                 }}
               >
-                Not building yet.
+                Not on the roadmap.
               </h2>
               <p style={{ fontSize: 14.5, color: "var(--textDim)", lineHeight: 1.6, margin: "0 0 24px" }}>
-                Discipline — the things we&apos;ve explicitly chosen <em>not</em> to ship before
-                Phase 8 stabilizes. Each one has a reason; each is reconsiderable.
+                Discipline — the things we&apos;ve explicitly chosen <em>not</em> to ship. Each one
+                has a reason; each is reconsiderable.
               </p>
               <ul className="mono" style={{ listStyle: "none", padding: 0, margin: 0, fontSize: 12.5, color: "var(--textDim)" }}>
                 {NOT_BUILDING.map((n) => (
@@ -200,7 +187,7 @@ export default function ProductPage() {
   );
 }
 
-function PhaseCell({ phase, index, total }: { phase: Phase; index: number; total: number }) {
+function FeatureCell({ feature, index, total }: { feature: Feature; index: number; total: number }) {
   const isRight = index % 2 === 1;
   const isLastRow = index >= total - (total % 2 === 0 ? 2 : 1);
   return (
@@ -219,9 +206,10 @@ function PhaseCell({ phase, index, total }: { phase: Phase; index: number; total
             fontSize: 11,
             color: "var(--accent)",
             letterSpacing: "0.06em",
+            textTransform: "uppercase",
           }}
         >
-          PHASE {phase.n}
+          {feature.group}
         </span>
         <span
           className="mono"
@@ -235,7 +223,7 @@ function PhaseCell({ phase, index, total }: { phase: Phase; index: number; total
             borderRadius: 99,
           }}
         >
-          complete
+          shipped
         </span>
       </div>
       <h3
@@ -247,7 +235,7 @@ function PhaseCell({ phase, index, total }: { phase: Phase; index: number; total
           margin: "0 0 8px",
         }}
       >
-        {phase.title}
+        {feature.title}
       </h3>
       <p
         style={{
@@ -257,10 +245,10 @@ function PhaseCell({ phase, index, total }: { phase: Phase; index: number; total
           margin: "0 0 16px",
         }}
       >
-        {phase.oneLiner}
+        {feature.oneLiner}
       </p>
       <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {phase.bullets.map((b) => (
+        {feature.bullets.map((b) => (
           <li
             key={b}
             style={{

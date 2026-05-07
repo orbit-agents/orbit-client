@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="om-a" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8e8e8" stop-opacity="0.95"></stop>
+      <stop offset="55%" stop-color="#e8e8e8" stop-opacity="0.55"></stop>
+      <stop offset="100%" stop-color="#e8e8e8" stop-opacity="0.05"></stop>
+    </linearGradient>
+    <linearGradient id="om-b" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ec891" stop-opacity="0.05"></stop>
+      <stop offset="45%" stop-color="#7ec891" stop-opacity="0.55"></stop>
+      <stop offset="100%" stop-color="#7ec891" stop-opacity="0.95"></stop>
+    </linearGradient>
+  </defs>
+  <g transform="translate(16 16) rotate(30)">
+    <ellipse cx="0" cy="0" rx="12" ry="6.5" fill="none" stroke="url(#om-a)" stroke-width="2" stroke-linecap="round"></ellipse>
+  </g>
+  <g transform="translate(16 16) rotate(-30)">
+    <ellipse cx="0" cy="0" rx="12" ry="6.5" fill="none" stroke="url(#om-b)" stroke-width="2" stroke-linecap="round"></ellipse>
+  </g>
+  <circle cx="22" cy="11" r="1.4" fill="#7ec891"></circle>
+</svg>

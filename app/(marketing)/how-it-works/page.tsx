@@ -249,29 +249,18 @@ export default function HowItWorksPage() {
                     margin: "0 0 6px",
                   }}
                 >
-                  Want the canonical version?
+                  Want the deeper version?
                 </p>
                 <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>
-                  Read{" "}
-                  <a
-                    href="https://github.com/orbit-agents/orbit/blob/main/docs/architecture.md"
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: "var(--accent)" }}
-                  >
-                    docs/architecture.md
+                  Read the{" "}
+                  <a href="/docs/architecture" style={{ color: "var(--accent)" }}>
+                    architecture guide
                   </a>{" "}
-                  on GitHub.
+                  in our docs.
                 </p>
               </div>
-              <Button
-                as="a"
-                href="https://github.com/orbit-agents/orbit"
-                variant="primary"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Browse the source →
+              <Button as="a" href="/download" variant="primary">
+                Download Orbit →
               </Button>
             </div>
           </DashedFrame>
