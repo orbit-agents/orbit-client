@@ -102,6 +102,15 @@ export function AppleIcon({ size = 28 }: IconProps) {
   );
 }
 
+// Windows logo (four-pane glyph)
+export function WindowsIcon({ size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M3 5.5L11 4v7H3V5.5zM12 3.85L21 2.5V11h-9V3.85zM3 12h8v7L3 17.5V12zm9 0h9v8.5L12 19v-7z" />
+    </svg>
+  );
+}
+
 // Linux glyph (the prototype's placeholder shape)
 export function LinuxIcon({ size = 28 }: IconProps) {
   return (

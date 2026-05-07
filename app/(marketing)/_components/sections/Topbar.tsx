@@ -58,16 +58,14 @@ export function Topbar() {
       </nav>
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
         <a
-          href="https://github.com/orbit-agents/orbit"
-          target="_blank"
-          rel="noreferrer"
+          href="/sign-in"
           style={{
             padding: "6px 10px",
             color: "var(--textDim)",
             fontSize: 13,
           }}
         >
-          GitHub
+          Sign in
         </a>
         <Button as="a" href="/download" variant="primary">
           <DownloadIcon /> Download

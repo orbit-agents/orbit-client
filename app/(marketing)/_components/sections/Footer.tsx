@@ -1,6 +1,13 @@
 import { BrandMark } from "../icons/BrandMark";
 
-const LINKS = ["Docs", "Changelog", "GitHub", "Discord", "Privacy", "Terms"];
+const LINKS: { label: string; href: string }[] = [
+  { label: "Product", href: "/product" },
+  { label: "Docs", href: "/docs" },
+  { label: "Changelog", href: "/changelog" },
+  { label: "Status", href: "/status" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
 
 export function Footer() {
   return (
@@ -25,8 +32,8 @@ export function Footer() {
         </div>
         <nav style={{ display: "flex", gap: 22, marginLeft: "auto" }}>
           {LINKS.map((l) => (
-            <a key={l} href="#" style={{ color: "inherit" }}>
-              {l}
+            <a key={l.label} href={l.href} style={{ color: "inherit" }}>
+              {l.label}
             </a>
           ))}
         </nav>

@@ -1,62 +1,60 @@
-import { ReactNode } from "react";
 import { SectionContainer } from "../_components/ui/SectionContainer";
 import { DashedFrame } from "../_components/ui/DashedFrame";
 import { PageHero } from "../_components/sections/PageHero";
 import { Chip } from "../_components/ui/Chip";
-import { Button } from "../_components/ui/Button";
 
 export const metadata = {
   title: "Agents — Orbit",
   description: "Soul. Purpose. Memory. The shape of an Orbit agent.",
 };
 
-const TRIPLE: { k: string; title: string; lede: string; example: string; phase: string }[] = [
+const TRIPLE: { k: string; title: string; lede: string; example: string }[] = [
   {
     k: "soul",
     title: "Soul",
     lede:
-      "How an agent thinks and speaks. Edit-once; injected into every turn's system prompt. Survives restarts and re-spawns.",
-    example: "I always use TypeScript strict mode and prefer `unknown` over `any`. I write conservative reviews and won't approve without tests.",
-    phase: "Phase 3",
+      "How an agent thinks and speaks. Set it once; it's injected into every turn's system prompt and survives every restart.",
+    example:
+      "I always use TypeScript strict mode and prefer `unknown` over `any`. I write conservative reviews and won't approve without tests.",
   },
   {
     k: "purpose",
     title: "Purpose",
     lede:
-      "What this agent is doing right now. Optional CLAUDE.md import on spawn. Live edits flag a pending pill until the next turn picks them up.",
-    example: "Refactor session handling for the auth migration. Add CSRF protection. Coordinate with Forge on the middleware changes.",
-    phase: "Phase 3",
+      "What this agent is doing right now. Optional project guide imported on spawn. Edits show a pending pill until the next turn picks them up.",
+    example:
+      "Refactor session handling for the auth migration. Add CSRF protection. Coordinate with Forge on the middleware changes.",
   },
   {
     k: "memory",
     title: "Memory",
     lede:
-      "Facts the agent accumulates. You can edit any entry; the agent can append via <remember>...</remember>. Capped at the 50 most-recent entries × 8 KB each in the prompt.",
-    example: "We use Tailwind v3, not v4. The users table is `usres` (legacy typo). PR reviews block on missing tests.",
-    phase: "Phase 3",
+      "Facts the agent accumulates as it works. You can edit any entry; the agent appends with the remember tool. Capped at the 50 most-recent × 8 KB each in the prompt.",
+    example:
+      "We use Tailwind v3, not v4. The users table is `usres` (legacy typo). Reviews block on missing tests.",
   },
 ];
 
-const TOOLS: { name: string; desc: string; phase: string; danger?: boolean }[] = [
-  { name: "read", desc: "Read files in the agent's allowlisted folders.", phase: "Phase 1" },
-  { name: "write", desc: "Edit files within the agent's git worktree.", phase: "Phase 1" },
-  { name: "bash", desc: "Run shell commands in the agent's worktree.", phase: "Phase 1" },
-  { name: "git", desc: "Worktree-isolated git ops via libgit2 (no external git binary required).", phase: "Phase 6" },
-  { name: "remember", desc: "Append a fact to the agent's persistent Memory list.", phase: "Phase 3" },
-  { name: "send_to(<agent>)", desc: "Hand work to another agent. Routed through the core broker — never agent → agent direct.", phase: "Phase 4" },
-  { name: "task", desc: "Create / update / mark-done tasks visible in the right panel and the global Inbox.", phase: "Phase 7" },
-  { name: "mcp:*", desc: "Any tool exposed by an MCP server you've registered. Materialized at spawn via --mcp-config.", phase: "Phase 8" },
+const TOOLS: { name: string; desc: string; group: string }[] = [
+  { name: "read", desc: "Read files in the agent's allowlisted folders.", group: "Files" },
+  { name: "write", desc: "Edit files inside the agent's isolated workspace.", group: "Files" },
+  { name: "bash", desc: "Run shell commands scoped to the agent's working directory.", group: "Files" },
+  { name: "version-control", desc: "Branch, diff, and commit operations inside the per-agent workspace.", group: "Files" },
+  { name: "remember", desc: "Append a fact to the agent's persistent memory list.", group: "Identity" },
+  { name: "send_to(<agent>)", desc: "Hand work to another agent. Always routed through the broker — never direct.", group: "Coordination" },
+  { name: "task", desc: "Create, update, and close tasks visible in the right panel and the global Inbox.", group: "Coordination" },
+  { name: "mcp:*", desc: "Any tool exposed by an MCP server you've registered. Materialized at spawn time per agent.", group: "Integrations" },
 ];
 
 const STARTERS: { id: string; name: string; av: string; avBg: string; avFg: string; role: string; soul: string; tools: string[] }[] = [
   { id: "atlas",   name: "Atlas",   av: "A", avBg: "#1e262e", avFg: "#96b4c7", role: "planner",   soul: "Splits goals into tasks and routes them. Only delegates — never writes code itself.", tools: ["plan", "send_to", "read"] },
-  { id: "keeper",  name: "Keeper",  av: "K", avBg: "#1f2a22", avFg: "#9ccfb0", role: "reviewer",  soul: "Reads diffs, runs static checks, leaves line comments. Won't approve without tests.", tools: ["git", "bash", "read"] },
-  { id: "forge",   name: "Forge",   av: "F", avBg: "#2a241c", avFg: "#d4b088", role: "builder",   soul: "Implements features end-to-end — code, tests, migration in one pass.", tools: ["write", "git", "bash", "task"] },
-  { id: "scribe",  name: "Scribe",  av: "S", avBg: "#1f2128", avFg: "#a0a9c8", role: "writer",    soul: "Docs, changelogs, PR descriptions. Reads the diff and explains what changed.", tools: ["read", "write"] },
+  { id: "keeper",  name: "Keeper",  av: "K", avBg: "#1f2a22", avFg: "#9ccfb0", role: "reviewer",  soul: "Reads diffs, runs static checks, leaves line comments. Won't approve without tests.", tools: ["version-control", "bash", "read"] },
+  { id: "forge",   name: "Forge",   av: "F", avBg: "#2a241c", avFg: "#d4b088", role: "builder",   soul: "Implements features end-to-end — code, tests, migration in one pass.", tools: ["write", "version-control", "bash", "task"] },
+  { id: "scribe",  name: "Scribe",  av: "S", avBg: "#1f2128", avFg: "#a0a9c8", role: "writer",    soul: "Docs, changelogs, release notes. Reads the diff and explains what changed in plain English.", tools: ["read", "write"] },
   { id: "compass", name: "Compass", av: "C", avBg: "#1e262a", avFg: "#96b9c7", role: "scout",     soul: "Maps unfamiliar codebases. Cites every reference; won't quote what it didn't read.", tools: ["read", "bash"] },
-  { id: "ranger",  name: "Ranger",  av: "R", avBg: "#1f281f", avFg: "#a3c398", role: "tester",    soul: "Runs e2e suites, triages flakes, isolates the smallest failing case.", tools: ["bash", "read"] },
+  { id: "ranger",  name: "Ranger",  av: "R", avBg: "#1f281f", avFg: "#a3c398", role: "tester",    soul: "Runs end-to-end suites, triages flakes, isolates the smallest failing case.", tools: ["bash", "read"] },
   { id: "mason",   name: "Mason",   av: "M", avBg: "#2a2420", avFg: "#c9a690", role: "deployer",  soul: "Talks to CI, watches rollouts. Stops on the first metric that drifts.", tools: ["bash", "mcp:ci"] },
-  { id: "scout",   name: "Scout",   av: "S", avBg: "#262028", avFg: "#c4a4d0", role: "researcher",soul: "Reads docs, RFCs, Stack Overflow. Cites sources.", tools: ["read", "mcp:web"] },
+  { id: "scout",   name: "Scout",   av: "S", avBg: "#262028", avFg: "#c4a4d0", role: "researcher",soul: "Reads docs, RFCs, and the open web. Cites sources.", tools: ["read", "mcp:web"] },
 ];
 
 export default function AgentsPage() {
@@ -65,7 +63,7 @@ export default function AgentsPage() {
       <PageHero
         eyebrow="Agents"
         title={<>Soul. Purpose. Memory.</>}
-        lede="An Orbit agent is a Claude Code subprocess in its own working directory. Identity is three persisted fields the core injects on every turn. The result feels less like a chatbot and more like a teammate that remembers."
+        lede="An Orbit agent is a long-running process with an identity. Three persisted fields the workspace injects on every turn — what it makes feel less like a chatbot and more like a teammate that remembers."
       />
 
       <section style={{ padding: "64px 0" }}>
@@ -134,17 +132,6 @@ export default function AgentsPage() {
                     </div>
                     {t.example}
                   </div>
-                  <div
-                    className="mono"
-                    style={{
-                      marginTop: 14,
-                      fontSize: 10.5,
-                      color: "var(--accent)",
-                      letterSpacing: "0.06em",
-                    }}
-                  >
-                    {t.phase}
-                  </div>
                 </div>
               ))}
             </div>
@@ -167,9 +154,8 @@ export default function AgentsPage() {
               Tools every agent has.
             </h2>
             <p style={{ fontSize: 14.5, color: "var(--textDim)", lineHeight: 1.6, margin: "0 0 28px", maxWidth: 720 }}>
-              The default toolset, plus pseudo-tools we ship for orchestration and any MCP server
-              you register. Tools landed in different phases — older ones are battle-tested, newer
-              ones still rough.
+              The default toolset, plus the orchestration tools we ship and any MCP server you
+              register. Tools are the only way an agent touches the world outside its prompt.
             </p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               {TOOLS.map((t, i) => (
@@ -177,7 +163,7 @@ export default function AgentsPage() {
                   key={t.name}
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "180px 1fr 80px",
+                    gridTemplateColumns: "200px 1fr 100px",
                     gap: 20,
                     padding: "14px 0",
                     borderTop: i === 0 ? "none" : "1px dashed var(--line3)",
@@ -197,9 +183,10 @@ export default function AgentsPage() {
                       color: "var(--accent)",
                       letterSpacing: "0.06em",
                       textAlign: "right",
+                      textTransform: "uppercase",
                     }}
                   >
-                    {t.phase}
+                    {t.group}
                   </span>
                 </li>
               ))}
@@ -214,13 +201,12 @@ export default function AgentsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, border: "1px dashed var(--line3)" }}>
               <div style={{ padding: "28px 28px", background: "var(--ink0)", borderRight: "1px dashed var(--line3)" }}>
                 <h3 style={{ fontSize: 18, fontWeight: 500, margin: "0 0 10px", letterSpacing: "-0.3px" }}>
-                  The engine is swappable.
+                  The model is swappable.
                 </h3>
                 <p style={{ fontSize: 13.5, color: "var(--textDim)", lineHeight: 1.6, margin: 0 }}>
-                  Today the engine wraps the Claude Code CLI. The{" "}
-                  <code className="mono" style={{ color: "var(--accent)" }}>AgentEngine</code> trait
-                  is the seam — future engines can wrap the Anthropic API directly, another CLI, or a
-                  local model. Code outside <code className="mono">agents::</code> doesn&apos;t change.
+                  Today Orbit ships with first-class support for the Claude family. The agent layer
+                  is built behind a clean trait so other providers and local models slot in without
+                  touching anything outside the engine.
                 </p>
                 <p
                   className="mono"
@@ -231,17 +217,17 @@ export default function AgentsPage() {
                     marginTop: 12,
                   }}
                 >
-                  See ADR 0002 — Claude Code as engine
+                  See: Engine integration in the docs
                 </p>
               </div>
               <div style={{ padding: "28px 28px", background: "var(--ink0)" }}>
                 <h3 style={{ fontSize: 18, fontWeight: 500, margin: "0 0 10px", letterSpacing: "-0.3px" }}>
-                  Inter-agent messaging is brokered.
+                  Coordination is brokered.
                 </h3>
                 <p style={{ fontSize: 13.5, color: "var(--textDim)", lineHeight: 1.6, margin: 0 }}>
                   Agents never talk directly. Every <code className="mono" style={{ color: "var(--accent)" }}>send_to</code> goes
-                  through the core broker, which logs to SQLite, applies rate limits, and emits a
-                  flight event the canvas animates. Loop guard at depth 8.
+                  through the workspace broker, which logs the message, applies rate limits, and
+                  emits a flight event the canvas animates. Loop guard at depth 8.
                 </p>
                 <p
                   className="mono"
@@ -252,7 +238,7 @@ export default function AgentsPage() {
                     marginTop: 12,
                   }}
                 >
-                  See ADR 0006 — &lt;send_to&gt; pseudo-tool
+                  See: Coordination model in the docs
                 </p>
               </div>
             </div>
@@ -274,11 +260,11 @@ export default function AgentsPage() {
                     margin: "0 0 8px",
                   }}
                 >
-                  Starter examples.
+                  Starter personas.
                 </h2>
                 <p style={{ fontSize: 14, color: "var(--textDim)", lineHeight: 1.55, margin: 0, maxWidth: 600 }}>
-                  Personas other Orbit users have shared. Clone any of them, edit the Soul, swap
-                  the tool list, and ship.
+                  Ready-made teammates other Orbit users have shared. Clone any of them, edit the
+                  Soul, swap the tool list, and ship.
                 </p>
               </div>
               <div className="mono" style={{ fontSize: 10.5, color: "var(--textFaint)", letterSpacing: "0.08em" }}>
