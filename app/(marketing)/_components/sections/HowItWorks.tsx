@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { SectionContainer } from "../ui/SectionContainer";
 import { DashedFrame } from "../ui/DashedFrame";
 import { HowSidebar } from "../utils/HowSidebar";
+// import { LanyardSlot } from "../ui/LanyardSlot";
 
 export function HowItWorks() {
   return (
@@ -31,6 +32,20 @@ export function HowItWorks() {
           pointerEvents: "none",
         }}
       />
+      {/* <LanyardSlot
+        className="lanyard-floater"
+        style={{
+          position: "absolute",
+          top: -40,
+          right: "max(24px, calc((100vw - 1200px) / 2 + 24px))",
+          width: 480,
+          height: 720,
+          zIndex: 2,
+          pointerEvents: "none",
+          // DEBUG: visible border so we can confirm placement. Remove once verified.
+          outline: "1px dashed rgba(74,222,128,0.5)",
+        }}
+      /> */}
       <SectionContainer>
         <DashedFrame padding="48px 56px">
           <div style={{ display: "grid", gridTemplateColumns: "320px 1fr", gap: 80, position: "relative" }}>

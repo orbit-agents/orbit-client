@@ -4,6 +4,7 @@ import { Eyebrow } from "../ui/Eyebrow";
 import { Chip } from "../ui/Chip";
 import { Button } from "../ui/Button";
 import { DashedFrame } from "../ui/DashedFrame";
+import DotField from "../ui/DotField";
 
 type Spec = { k: string; v: ReactNode };
 type Agent = {
@@ -249,6 +250,7 @@ export function Agents() {
         padding: "120px 0",
         position: "relative",
         borderBottom: "1px solid var(--line0)",
+        overflow: "hidden",
       }}
     >
       <span
@@ -262,9 +264,34 @@ export function Agents() {
           background:
             "linear-gradient(90deg, transparent, var(--line3) 20%, var(--line3) 80%, transparent)",
           pointerEvents: "none",
+          zIndex: 2,
         }}
       />
-      <SectionContainer>
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <DotField
+          dotRadius={2.5}
+          dotSpacing={14}
+          bulgeStrength={67}
+          glowRadius={160}
+          sparkle={false}
+          waveAmplitude={0}
+          cursorRadius={500}
+          cursorForce={0.1}
+          bulgeOnly
+          gradientFrom="#3a3a3a"
+          gradientTo="#242424"
+          glowColor="#1a1a1a"
+        />
+      </div>
+      <SectionContainer style={{ position: "relative", zIndex: 1 }}>
         <DashedFrame padding={48}>
           <div
             className="reveal"

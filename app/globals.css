@@ -70,6 +70,10 @@ svg { display: block; }
 @keyframes om-vg-pulse { 0% { r: 2; opacity: 1; } 100% { r: 18; opacity: 0; } }
 @keyframes om-spark { 0%,100% { height: 30%; } 50% { height: 100%; } }
 @keyframes om-acell-shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(150%); } }
+@keyframes om-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Pause horizontal marquee on hover (track styles are inline so layout always wins) */
+.metrics-marquee:hover .metrics-marquee-track { animation-play-state: paused !important; }
 
 /* Common animation hooks */
 .dashflow { animation: om-dashflow 1.6s linear infinite; }
@@ -78,6 +82,11 @@ svg { display: block; }
 .float-3 { animation: om-float-a 2.4s ease-in-out infinite .6s; }
 .float-4 { animation: om-float-a 2.4s ease-in-out infinite .9s; }
 .vg-pulse { animation: om-vg-pulse 1.8s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+
+/* Hide the lanyard floater on tablets and below — heavy physics + tight layout */
+@media (max-width: 1024px) {
+  .lanyard-floater { display: none !important; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -2,14 +2,44 @@ import { ReactNode } from "react";
 import { SectionContainer } from "../ui/SectionContainer";
 import { Eyebrow } from "../ui/Eyebrow";
 import { DashedFrame } from "../ui/DashedFrame";
+import DotField from "../ui/DotField";
 
 export function Values() {
   return (
     <section
       id="values"
-      style={{ padding: "96px 0", borderBottom: "1px solid var(--line0)" }}
+      style={{
+        padding: "96px 0",
+        borderBottom: "1px solid var(--line0)",
+        position: "relative",
+        overflow: "hidden",
+      }}
     >
-      <SectionContainer>
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      >
+        <DotField
+          dotRadius={2.5}
+          dotSpacing={14}
+          bulgeStrength={67}
+          glowRadius={160}
+          sparkle={false}
+          waveAmplitude={0}
+          cursorRadius={500}
+          cursorForce={0.1}
+          bulgeOnly
+          gradientFrom="#3a3a3a"
+          gradientTo="#242424"
+          glowColor="#1a1a1a"
+        />
+      </div>
+      <SectionContainer style={{ position: "relative", zIndex: 1 }}>
         <DashedFrame padding={48}>
           <div className="reveal" style={{ maxWidth: 720, marginBottom: 56 }}>
             <Eyebrow>What is orbit</Eyebrow>
